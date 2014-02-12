@@ -1,17 +1,6 @@
-#!/usr/bin/perl -w
-
 use strict;
+use warnings;
 use Test::More;
-
-BEGIN {
-    eval 'use File::Temp';
-    if ($@) {
-        plan skip_all => 'Need File::Temp for this test';
-    }
-    else {
-        plan tests => 9;
-    }
-}
 
 use Devel::Peek qw( SvREFCNT );
 use File::Temp qw( tempfile );
@@ -100,3 +89,5 @@ sub val2 {
 
     return $ref;
 }
+
+done_testing();

@@ -1,3 +1,40 @@
+libparams-validate-perl (1.06-1) unstable; urgency=low
+
+  [ Ansgar Burchardt ]
+  * New upstream release 1.00.
+  * debian/control: Convert Vcs-* fields to Git.
+
+  [ Salvatore Bonaccorso ]
+  * debian/copyright: Replace DEP5 Format-Specification URL from
+    svn.debian.org to anonscm.debian.org URL.
+
+  [ gregor herrmann ]
+  * New upstream release 1.03.
+  * Refresh pod patch (offset).
+  * Update upstream and packaging copyright information.
+  * Switch to debhelper compatibility level 9 to pass CFLAGS to
+    Makefile.PL/Build.PL.
+  * Update build and runtime dependencies.
+  * New upstream release 1.06.
+
+ -- gregor herrmann <gregoa@debian.org>  Sun, 12 Feb 2012 14:44:13 +0100
+
+libparams-validate-perl (0.97-1) unstable; urgency=low
+
+  [ Jonathan Yu ]
+  * Makefile.PL removed upstream; no need to force perl_build
+
+  [ Nicholas Bamber ]
+  * Added myself to Uploaders
+  * New upstream release
+  * Updated dependencies - build dependencies significantly reduced
+  * Email change: gregor herrmann -> gregoa@debian.org
+  * Refreshed copyright
+  * Added debian/source
+  * Added patch for pod syntax
+
+ -- Nicholas Bamber <nicholas@periapt.co.uk>  Wed, 20 Apr 2011 20:34:14 +0100
+
 libparams-validate-perl (0.93-1) unstable; urgency=low
 
   * New upstream release

@@ -1,22 +1,28 @@
 Source: libparams-validate-perl
 Section: perl
 Priority: optional
-Build-Depends: perl, debhelper (>= 7.0.50), libtest-taint-perl (>= 0.02),
- perl (>= 5.10) | libmodule-build-perl, libtest-pod-coverage-perl,
- libreadonly-xs-perl, libreadonly-perl, libtest-pod-perl,
- libtest-kwalitee-perl
+Build-Depends: perl, debhelper (>= 9),
+ libmodule-implementation-perl,
+ libreadonly-xs-perl,
+ libreadonly-perl,
+ libtest-fatal-perl,
+ perl (>= 5.11.4) | libmodule-build-perl (>= 0.360100)
 Maintainer: Debian Perl Group <pkg-perl-maintainers@lists.alioth.debian.org>
-Uploaders: Jay Bonci <jaybonci@debian.org>, Jonathan Yu <jawnsy@cpan.org>,
+Uploaders: Jay Bonci <jaybonci@debian.org>,
+ Jonathan Yu <jawnsy@cpan.org>,
  gregor herrmann <gregoa@debian.org>,
- Krzysztof Krzyżaniak (eloy) <eloy@debian.org>, Damyan Ivanov <dmn@debian.org>
-Standards-Version: 3.8.3
+ Nicholas Bamber <nicholas@periapt.co.uk>,
+ Krzysztof Krzyżaniak (eloy) <eloy@debian.org>,
+ Damyan Ivanov <dmn@debian.org>
+Standards-Version: 3.9.2
 Homepage: http://search.cpan.org/dist/Params-Validate/
-Vcs-Svn: svn://svn.debian.org/pkg-perl/trunk/libparams-validate-perl/
-Vcs-Browser: http://svn.debian.org/viewsvn/pkg-perl/trunk/libparams-validate-perl/
+Vcs-Git: git://git.debian.org/pkg-perl/packages/libparams-validate-perl.git
+Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-perl/packages/libparams-validate-perl.git
 
 Package: libparams-validate-perl
 Architecture: any
-Depends: ${perl:Depends}, ${shlibs:Depends}, ${misc:Depends}
+Depends: ${perl:Depends}, ${shlibs:Depends}, ${misc:Depends},
+ libmodule-implementation-perl
 Description: Perl module to validate parameters to Perl method/function calls
  Params::Validate is a Perl module providing a flexible way to validate method
  and function call parameters. The validation can be as simple as checking for
