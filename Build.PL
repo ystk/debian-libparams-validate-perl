@@ -1,73 +1,67 @@
-use 5.006;
 
 use strict;
 use warnings;
 
-use Module::Build;
+use Module::Build 0.3601;
 
-my $force_pp = grep { $_ eq '--pp' } @ARGV;
 
-my @pp = _make_pp_tests();
-
-my $builder = Module::Build->new(
-    module_name => 'Params::Validate',
-    license     => 'perl',
-    requires    => {
-        'Attribute::Handlers' => '0.79',
-        'Test::More'          => '0',
-        'Scalar::Util'        => '1.10',
-    },
-    build_requires => {
-        'ExtUtils::CBuilder' => '0',
-        'Pod::Man'           => '1.14',
-        'Test::More'         => '0.34',
-    },
-    c_source       => 'c',
-    add_to_cleanup => \@pp,
-    create_readme  => 1,
-    sign           => 1,
-    meta_merge     => {
-        resources => {
-            bugtracker =>
-                'http://rt.cpan.org/NoAuth/Bugs.html?Dist=Params-Validate',
-            repository =>
-                'https://svn.urth.org/svn/Params-Validate',
-        },
-    },
-    create_makefile_pl => 'traditional',
+my %module_build_args = (
+  "build_requires" => {
+    "Devel::Peek" => 0,
+    "File::Spec" => 0,
+    "File::Temp" => 0,
+    "Module::Build" => "0.3601",
+    "Module::Implementation" => "0.04",
+    "Test::Fatal" => 0,
+    "Test::More" => "0.88",
+    "Tie::Array" => 0,
+    "Tie::Hash" => 0,
+    "base" => 0,
+    "overload" => 0
+  },
+  "c_source" => "c",
+  "configure_requires" => {
+    "Module::Build" => "0.3601"
+  },
+  "dist_abstract" => "Validate method/function parameters",
+  "dist_author" => [
+    "Dave Rolsky, <autarch\@urth.org> and Ilya Martynov <ilya\@martynov.org>"
+  ],
+  "dist_name" => "Params-Validate",
+  "dist_version" => "1.06",
+  "license" => "artistic_2",
+  "module_name" => "Params::Validate",
+  "recommends" => {},
+  "recursive_test_files" => 1,
+  "requires" => {
+    "Attribute::Handlers" => "0.79",
+    "Carp" => 0,
+    "Exporter" => 0,
+    "Module::Implementation" => 0,
+    "Scalar::Util" => "1.10",
+    "XSLoader" => 0,
+    "attributes" => 0,
+    "perl" => "5.008001",
+    "strict" => 0,
+    "vars" => 0,
+    "warnings" => 0
+  },
+  "script_files" => []
 );
 
-if ($force_pp) {
-    $builder->build_elements(
-        [ grep { $_ ne 'xs' } @{ $builder->build_elements() } ] );
+
+my $build = Module::Build->new(%module_build_args);
+
+my $skip_xs;
+if ( grep { $_ eq '--pp' } @ARGV ) {
+    $skip_xs = 1;
+}
+elsif ( ! $build->have_c_compiler() ) {
+    $skip_xs = 1;
 }
 
-$builder->create_build_script();
-
-sub _make_pp_tests {
-    return unless -d '.svn';
-
-    require File::Slurp;
-    File::Slurp->import(qw( read_file write_file ));
-
-    opendir my $dh, 't'
-        or die "Cannot read t: $!";
-
-    my @pp;
-    foreach my $file ( grep {/^\d.+\.t$/} readdir $dh ) {
-        next if $file !~ /^\d/;
-
-        my $test = read_file("t/$file");
-
-        my $bang_flags = $test =~ /perl -Tw/ ? '-Tw' : '-w';
-        $test
-            = "#!/usr/bin/perl $bang_flags \n\nBEGIN { \$ENV{PV_TEST_PERL} = 1 }\n\n$test";
-
-        my $new_file = "t/pp_$file";
-        write_file( $new_file, $test );
-
-        push @pp, $new_file;
-    }
-
-    return @pp;
+if ($skip_xs) {
+    $build->build_elements(
+        [ grep { $_ ne 'xs' } @{ $build->build_elements() } ] );
 }
+$build->create_build_script;

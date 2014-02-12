@@ -6,7 +6,7 @@ use warnings;
 use Params::Validate qw(:all);
 
 use PVTests;
-use Test::More;
+use Test::More 0.88;
 
 my $String = 'foo';
 
@@ -648,8 +648,6 @@ sub run_tests {
     my $count = scalar @Tests;
     $count++ for grep { $_->{return} } @Tests;
 
-    plan tests => $count;
-
     for my $test (@Tests) {
         if ( $test->{options} ) {
 
@@ -683,6 +681,8 @@ sub run_tests {
                 "check return value for $sub - array" );
         }
     }
+
+    done_testing();
 }
 
 sub sub1 {
