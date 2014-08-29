@@ -1,8 +1,5 @@
 package Params::Validate;
-{
-  $Params::Validate::VERSION = '1.06';
-}
-
+$Params::Validate::VERSION = '1.13';
 use 5.008001;
 
 use strict;
@@ -70,7 +67,7 @@ $NO_VALIDATION = $ENV{PERL_NO_VALIDATION};
 
 # ABSTRACT: Validate method/function parameters
 
-
+__END__
 
 =pod
 
@@ -80,7 +77,7 @@ Params::Validate - Validate method/function parameters
 
 =head1 VERSION
 
-version 1.06
+version 1.13
 
 =head1 SYNOPSIS
 
@@ -579,8 +576,8 @@ You can also use the C<state> feature to do this:
     use feature 'state';
 
     sub foo {
-        state %spec = ( ... );
-        my %params = validate( @_, \%spec );
+        state $spec = { ... };
+        my %params = validate( @_, $spec );
     }
 
 =head1 "GLOBAL" OPTIONS
@@ -775,6 +772,14 @@ expect validation to be on when they execute.  For example:
 But if you want to shoot yourself in the foot and just turn it off, go
 ahead!
 
+=head1 TAINT MODE
+
+The XS implementation of this module has some problems Under taint mode with
+version of Perl before 5.14. If validation I<fails>, then instead of getting
+the expected error message you'll get a message like "Insecure dependency in
+eval_sv". This can be worked around by either untainting the arguments
+yourself, using the pure Perl implementation, or upgrading your Perl.
+
 =head1 LIMITATIONS
 
 Right now there is no way (short of a callback) to specify that
@@ -814,20 +819,26 @@ To donate, log into PayPal and send money to autarch@urth.org or use
 the button on this page:
 L<http://www.urth.org/~autarch/fs-donation.html>
 
-=head1 AUTHOR
+=head1 AUTHORS
 
-Dave Rolsky, <autarch@urth.org> and Ilya Martynov <ilya@martynov.org>
+=over 4
+
+=item *
+
+Dave Rolsky <autarch@urth.org>
+
+=item *
+
+Ilya Martynov <ilya@martynov.org>
+
+=back
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is Copyright (c) 2012 by Dave Rolsky and Ilya Martynov.
+This software is Copyright (c) 2014 by Dave Rolsky and Ilya Martynov.
 
 This is free software, licensed under:
 
   The Artistic License 2.0 (GPL Compatible)
 
 =cut
-
-
-__END__
-
