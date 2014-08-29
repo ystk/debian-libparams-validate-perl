@@ -1,3 +1,63 @@
+1.13    2014-06-28
+
+- Fix my brain damage so that this code compiles with Perl 5.14.
+
+
+1.12    2014-06-27
+
+- Temporarily skip tests that use Readonly with Readonly 1.50+ until various
+  bugs are worked out in Readonly.
+
+
+1.11    2014-06-26
+
+- Fixes for MSVC compilation. Patch by J.R. Mash. PR #1.
+
+
+1.10    2014-05-11
+
+- Require Readonly 1.03+ and Scalar::Util 1.20 for testing with
+  Readonly. AFAICT, earlier versions of Readonly worked very differently,
+  and/or this is related to Scalar::Util. Either way, this test isn't that
+  important anyway. RT #95402.
+
+
+1.09    2014-05-04
+
+- A call to validate() where the spec was a reference to a Readonly hash would
+  segfault. Reported by Salvatore Bonaccorso. RT #80572.
+
+- When using the XS implementation, attempting to validate parameters with
+  tainted values would cause an "Insecure dependency in eval_sv() while
+  running with -T switch" exception from Perl *if the validation failed*. This
+  is fixed, but only for Perl 5.14+. Older Perls do not include the necessary
+  XS API. RT #70174.
+
+- Fixed some potential segfaults from the XS implementation including the one
+  reported by Анатолий Гришаев in RT #50412. However, the XS code in general
+  is pretty crufty and tends to assume that values which could be NULL aren't.
+
+- Fixed bad example of state() in POD. Reported by Salvatore Bonaccorso. RT
+  #80250.
+
+
+1.08    2013-06-07
+
+- The handling of defaults in the XS version of validate_pos was broken. The
+  default were simply pushed into the returned array, rather than being
+  explicitly stored in the right index based on the order of the specs passed
+  to validate_pos(). RT #83780.
+
+
+1.07    2012-10-26
+
+- Params::Validate's XS implementation would overwrite $@ when validation subs
+  were called. Patch by Salvador Fandino. RT #80124.
+
+- The use of state in the POD was broken. It only works with scalars. Reported
+  by Salvatore Bonaccorso. RT #80250.
+
+
 1.06    2012-02-10
 
 - Shut up warnings when XS is loaded on older 5.8.x Perl versions. Reported by
